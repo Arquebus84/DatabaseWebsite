@@ -1,12 +1,15 @@
 //NEW
-const { response } = require('express');
+// const { response } = require('express');
+// import expr from 'express';
 const {DatabaseSync} = require('node:sqlite');
+// import sqlite from 'node:sqlite'; 
 
 export default class DataAccess{
     db = DatabaseSync('nurseryDB.db');
+    // db = DatabaseSync('nurseryDB.db');
 
     getFacultyTable(){
-        const values = db.prepare('select * from faculty').all();
+        const values = db.prepare('SELECT * FROM faculty').all();   //query.all()
         return values;
     }
 }
