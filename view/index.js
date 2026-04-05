@@ -1,12 +1,13 @@
-// import {DataAccess} from database.js;
+// import { Database } from "sqlite";
+import DataAccess from './database.js';
 // const express = require('express');
 
 // const table = document.getElementById("tableView");
 // const patientBT = document.getElementById("patientBT");
 const facultyBT = document.getElementById('facultyBT');
 
-// this.tableValues = new DataAccess();
+const tableValues = new DataAccess();
 
 facultyBT.addEventListener('click', function(e){
-    document.getElementById("tableView").innerText = "Hello There!";//tableValues.getFacultyTable();
+    document.getElementById("tableView").innerText = tableValues.getFacultyTable();
 });

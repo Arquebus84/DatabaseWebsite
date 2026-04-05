@@ -4,7 +4,7 @@ const app = express();
 
 const PORT = 3000;
 
-app.use(express.static('/view'));
+app.use(express.static('view'));
 
 app.listen(PORT, ()=>{
     console.log(`App running on http://localhost:${PORT}`);

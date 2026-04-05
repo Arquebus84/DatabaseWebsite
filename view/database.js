@@ -2,7 +2,7 @@
 const { response } = require('express');
 const {DatabaseSync} = require('node:sqlite');
 
-class DataAccess{
+export default class DataAccess{
     db = DatabaseSync('nurseryDB.db');
 
     getFacultyTable(){
