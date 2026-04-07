@@ -3,79 +3,21 @@
 -- ------------------------------------------------------
 -- Server version	8.0.44
 
---
--- Table structure for table `assigned_room`
---
-
-DROP TABLE IF EXISTS `assigned_room`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `assigned_room` (
-  `patientRoomID` INTEGER DEFAULT NULL,
-  `facultyID` INTEGER DEFAULT NULL,
-  `floorNumber` INTEGER DEFAULT NULL,
-  PRIMARY KEY (`patientRoomID`,`facultyID`),
-  CONSTRAINT `assigned_room_ibfk_1` FOREIGN KEY (`patientRoomID`) REFERENCES `patient_room` (`patientroomID`),
-  CONSTRAINT `assigned_room_chk_1` CHECK (((`floorNumber` > 0) and (`floorNumber` < 4)))
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `cost`
---
-
-DROP TABLE IF EXISTS `cost`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cost` (
-  `medication_price` float DEFAULT NULL,
-  `medicationID` INTEGER DEFAULT NULL,
-  `paymentID` INTEGER DEFAULT NULL,
-  PRIMARY KEY (`medicationID`,`paymentID`),
-  -- KEY `paymentID` (`paymentID`),
-  CONSTRAINT `cost_ibfk_1` FOREIGN KEY (`medicationID`) REFERENCES `medication` (`medicationID`),
-  CONSTRAINT `cost_ibfk_2` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `faculty`
---
-
-DROP TABLE IF EXISTS `faculty`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `faculty` (
-  `facultyID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
-  `facultylastName` varchar(20) DEFAULT NULL,
-  `facultyTypeID` INTEGER DEFAULT NULL,
-  -- UNIQUE PRIMARY KEY (`facultyID`),
-  -- UNIQUE KEY `facultyID` (`facultyID`),
-  -- KEY `facultyTypeID` (`facultyTypeID`),
-  CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`facultyTypeID`) REFERENCES `faculty_type` (`facultyTypeID`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Table structure for table `faculty_type`
 --
-
 DROP TABLE IF EXISTS `faculty_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `faculty_type` (
   `facultyTypeID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
   `facultyType` varchar(12) DEFAULT NULL
-  -- UNIQUE PRIMARY KEY (`facultyTypeID`)
-  -- UNIQUE KEY `facultyTypeID` (`facultyTypeID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `medication`
 --
-
 DROP TABLE IF EXISTS `medication`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -84,12 +26,81 @@ CREATE TABLE `medication` (
   `medidactionType` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`medicationID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `payment_system`
+--
+DROP TABLE IF EXISTS `payment_system`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_system` (
+  `paymentID` INTEGER NOT NULL UNIQUE,
+  `price` float DEFAULT NULL,
+  `tax` float DEFAULT NULL,
+  PRIMARY KEY (`paymentID`)
+);
+
+--
+-- Table structure for table `phone_number`
+--
+DROP TABLE IF EXISTS `phone_number`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `phone_number` (
+  `numberID` INTEGER NOT NULL UNIQUE,
+  `phone_number` varchar(12) DEFAULT NULL,
+  PRIMARY KEY (`numberID`)
+);
+
+--
+-- Table structure for table `assigned_room`
+--
+DROP TABLE IF EXISTS `assigned_room`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `assigned_room` (
+  `patientRoomID` INTEGER NOT NULL UNIQUE,
+  `facultyID` INTEGER NOT NULL,
+  `floorNumber` INTEGER NOT NULL,
+  PRIMARY KEY (`patientRoomID`,`facultyID`),
+  CONSTRAINT `assigned_room_ibfk_1` FOREIGN KEY (`patientRoomID`) REFERENCES `patient_room` (`patientroomID`),
+  CONSTRAINT `assigned_room_chk_1` CHECK (((`floorNumber` > 0) and (`floorNumber` < 4)))
+);
+
+--
+-- Table structure for table `cost`
+--
+DROP TABLE IF EXISTS `cost`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cost` (
+  `medicationID` INTEGER NOT NULL UNIQUE,
+  `medication_price` float NULL,
+  `paymentID` INTEGER NOT NULL,
+  PRIMARY KEY (`medicationID`,`paymentID`),
+  CONSTRAINT `cost_ibfk_1` FOREIGN KEY (`medicationID`) REFERENCES `medication` (`medicationID`),
+  CONSTRAINT `cost_ibfk_2` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
+);
+
+--
+-- Table structure for table `faculty`
+--
+DROP TABLE IF EXISTS `faculty`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `faculty` (
+  `facultyID` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+  `facultylastName` varchar(20) DEFAULT NULL,
+  `facultyTypeID` INTEGER NOT NULL,
+  -- UNIQUE PRIMARY KEY (`facultyID`),
+  -- UNIQUE KEY `facultyID` (`facultyID`),
+  -- KEY `facultyTypeID` (`facultyTypeID`),
+  CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`facultyTypeID`) REFERENCES `faculty_type` (`facultyTypeID`)
+);
 
 --
 -- Table structure for table `patient`
 --
-
 DROP TABLE IF EXISTS `patient`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -99,14 +110,13 @@ CREATE TABLE `patient` (
   `lastName` varchar(20) DEFAULT NULL,
   `patientPriority` INTEGER DEFAULT NULL,
   `conditiondesc` varchar(100) DEFAULT NULL,
-  `familyID` INTEGER DEFAULT NULL,
+  `familyID` INTEGER NOT NULL,
   -- PRIMARY KEY (`patientID`),
   -- UNIQUE KEY `patientID` (`patientID`),
   -- KEY `familyID` (`familyID`),
   CONSTRAINT `patient_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`),
   CONSTRAINT `patient_chk_1` CHECK (((`patientPriority` > 0) and (`patientPriority` < 5)))
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `patient_room`
@@ -125,73 +135,37 @@ CREATE TABLE `patient_room` (
   -- KEY `patientID` (`patientID`),
   CONSTRAINT `patient_room_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `payment_summary`
 --
-
 DROP TABLE IF EXISTS `payment_summary`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_summary` (
   `paymentSumID` INTEGER NOT NULL,
   `netpayment` float DEFAULT NULL,
-  `paymentID` INTEGER DEFAULT NULL,
+  `paymentID` INTEGER NOT NULL,
   PRIMARY KEY (`paymentSumID`),
   -- KEY `paymentID` (`paymentID`),
   CONSTRAINT `payment_summary_ibfk_1` FOREIGN KEY (`paymentID`) REFERENCES `payment_system` (`paymentID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `payment_system`
---
-
-DROP TABLE IF EXISTS `payment_system`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `payment_system` (
-  `paymentID` INTEGER NOT NULL UNIQUE,
-  `price` float DEFAULT NULL,
-  `tax` float DEFAULT NULL,
-  PRIMARY KEY (`paymentID`)
-  -- UNIQUE KEY `paymentID` (`paymentID`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `phone_number`
---
-
-DROP TABLE IF EXISTS `phone_number`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `phone_number` (
-  `phone_number` varchar(12) DEFAULT NULL,
-  `numberID` INTEGER NOT NULL,
-  PRIMARY KEY (`numberID`)
-);
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `trusted_family`
 --
-
 DROP TABLE IF EXISTS `trusted_family`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `trusted_family` (
   `familyID` INTEGER NOT NULL UNIQUE,
   `lastName` varchar(20) DEFAULT NULL,
-  `phone_numberID` INTEGER DEFAULT NULL,
+  `phone_numberID` INTEGER NOT NULL,
   PRIMARY KEY (`familyID`),
   -- UNIQUE KEY `familyID` (`familyID`,`lastName`),
   -- KEY `phone_numberID` (`phone_numberID`),
   CONSTRAINT `trusted_family_ibfk_1` FOREIGN KEY (`phone_numberID`) REFERENCES `phone_number` (`numberID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Table structure for table `works_with`
 --
@@ -200,14 +174,11 @@ DROP TABLE IF EXISTS `works_with`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `works_with` (
-  `familyID` INTEGER DEFAULT NULL,
-  `facultyID` INTEGER DEFAULT NULL,
-  `paymentSumID` INTEGER DEFAULT NULL,
+  `familyID` INTEGER NOT NULL,
+  `facultyID` INTEGER NOT NULL,
+  `paymentSumID` INTEGER NOT NULL,
   PRIMARY KEY (`facultyID`,`familyID`),
-  -- KEY `familyID` (`familyID`),
-  -- KEY `paymentSumID` (`paymentSumID`),
   CONSTRAINT `works_with_ibfk_1` FOREIGN KEY (`familyID`) REFERENCES `trusted_family` (`familyID`),
   CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`),
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
 );
-/*!40101 SET character_set_client = @saved_cs_client */;
