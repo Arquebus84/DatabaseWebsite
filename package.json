@@ -11,9 +11,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "ejs": "^5.0.1",
     "express": "^5.2.1",
     "module": "^2.0.0",
     "mysql": "^2.18.1",
+    "router": "^2.2.0",
     "sqlite": "^5.1.1"
   },
   "devDependencies": {
