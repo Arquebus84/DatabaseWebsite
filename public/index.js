@@ -9,13 +9,16 @@ const facultyBT = document.getElementById('facultyBT');
 const familyBT = document.getElementById("familyBT");
 const paymentBT = document.getElementById("paymentBT");
 
+const responseText = document.getElementById("tableView");
+
 // // const tableValues = new DataAccess();
 // db = DatabaseSync('nurseryDB.db');
 //     // db = DatabaseSync('nurseryDB.db');
 // const rows = db.prepare('SELECT * FROM faculty').all();   //query.all()
 patientBT.addEventListener('click', function(e){
-    document.getElementById("tableView").innerText = "Patient Table";//tableValues.getFacultyTable();
+    //document.getElementById("tableView").innerText = "Patient Table";//tableValues.getFacultyTable();
     // console.log(rows);
+    
 });
 facultyBT.addEventListener('click', function(e){
     document.getElementById("tableView").innerText = "Faculty Table";//tableValues.getFacultyTable();
