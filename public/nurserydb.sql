@@ -182,3 +182,12 @@ CREATE TABLE `works_with` (
   CONSTRAINT `works_with_ibfk_2` FOREIGN KEY (`facultyID`) REFERENCES `faculty` (`facultyID`),
   CONSTRAINT `works_with_ibfk_3` FOREIGN KEY (`paymentSumID`) REFERENCES `payment_summary` (`paymentSumID`)
 );
+
+
+INSERT INTO faculty_type VALUES (0, 'Doctor');
+INSERT INTO faculty_type VALUES (1, 'Nurser');
+
+INSERT INTO faculty VALUES (0, 'Ventura', 0);
+INSERT INTO faculty VALUES (1, 'Roe', 1);
+INSERT INTO faculty VALUES (2, 'Oropesa', 1);
+INSERT INTO faculty VALUES (3, 'Snyder', 1);

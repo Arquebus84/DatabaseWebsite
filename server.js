@@ -5,6 +5,8 @@ var app = express();
 
 var data = require('./routes/data');
 
+var db = require('./database');
+
 // var indexRouter = require('./routes/data');  //Fix this
 
 app.set('views', path.join(__dirname, 'views'));
